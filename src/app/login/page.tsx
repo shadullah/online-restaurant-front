@@ -23,7 +23,7 @@ const LoginPage = () => {
         email: data.email,
         password: data.password,
       });
-      console.log(res.data);
+      //   console.log(res.data);
 
       if (!res.data?.user_id) {
         throw new Error("Login failed: User ID not found in response");
@@ -65,7 +65,7 @@ const LoginPage = () => {
           <p className="mt-2 text-center text-base text-black/60">
             Don&apos;t have any account?&nbsp;
             <Link
-              href="/register"
+              href="/signup"
               className="font-medium text-primary transition-all duration-200 underline"
             >
               Sign Up
@@ -92,7 +92,7 @@ const LoginPage = () => {
               />
               <button
                 type="submit"
-                className="w-full bg-orange-500 rounded-md py-2 font-bold text-white"
+                className="w-full bg-orange-500 rounded-md py-2 font-bold text-white cursor-pointer"
               >
                 Sign in
               </button>
