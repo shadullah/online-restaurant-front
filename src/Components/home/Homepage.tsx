@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Homepage = () => {
@@ -11,9 +12,11 @@ const Homepage = () => {
           A Online Restaurant management App
         </p>
         <div className="text-center ">
-          <button className="border-amber-400 px-6 py-4 border-2 rounded-3xl">
-            Order now &rarr;
-          </button>
+          <Link href="/restaurants">
+            <button className="border-amber-400 px-6 py-4 border-2 rounded-3xl cursor-pointer">
+              Order now &rarr;
+            </button>
+          </Link>
         </div>
       </div>
     </div>
