@@ -35,6 +35,7 @@ const LoginPage = () => {
       //     accessToken: res.data.accessToken,
       //   };
       //   loginMain(userData);
+      localStorage.setItem("id", res.data.user_id);
       router.push("/");
       console.log("Logged in", res.data);
       toast.success("logged in", { duration: 3000 });
