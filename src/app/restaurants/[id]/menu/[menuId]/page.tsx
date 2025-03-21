@@ -2,8 +2,7 @@
 import { useAuth } from "@/contexts/AuthContext/AuthContext";
 import axios from "axios";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
