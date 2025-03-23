@@ -40,7 +40,7 @@ const RestaurantDataTable = () => {
 
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete the project??"
+      "Are you sure you want to delete the restaurant??"
     );
 
     if (!confirmDelete) {
@@ -49,11 +49,13 @@ const RestaurantDataTable = () => {
 
     try {
       await axios.delete(`/api/restaurants/${id}`);
-      setRestaurants((prev) => prev.filter((project) => project.id !== id));
+      setRestaurants((prev) =>
+        prev.filter((restaurant) => restaurant.id !== id)
+      );
       toast.success("deleted success!!", { duration: 3000 });
     } catch (error) {
       console.log(error);
-      toast.error("Failed to delete project!!!");
+      toast.error("Failed to delete restaurant!!!");
     }
   };
 
@@ -89,36 +91,40 @@ const RestaurantDataTable = () => {
                   </tr>
                 ) : (
                   restaurants
-                    ?.filter((project) => project.owner == user?.id)
-                    .map((project, index) => (
+                    ?.filter((restaurant) => restaurant.owner == user?.id)
+                    .map((restaurant, index) => (
                       <tr
-                        key={project.id || index}
+                        key={restaurant.id || index}
                         className="border-b hover:bg-gray-800"
                       >
                         <td className="p-3">
                           <Image
-                            src={project?.image}
-                            alt={project?.name}
+                            src={restaurant?.image}
+                            alt={restaurant?.name}
                             width={64}
                             height={64}
                             className="w-16 h-16 object-cover rounded"
                           />
                         </td>
-                        <td className="p-3 font-medium">{project.name}</td>
+                        <td className="p-3 font-medium">{restaurant.name}</td>
                         <td className="p-3">
-                          <div className="flex gap-2">{project.location}</div>
+                          <div className="flex gap-2">
+                            {restaurant.location}
+                          </div>
                         </td>
                         <td className="p-3 text-center">
-                          <Link href={`/dashboard/restaurants/${project.id}`}>
-                            <button className="text-green-200 hover:bg-green-600 p-2 rounded-full transition-all duration-200 text-2xl">
+                          <Link
+                            href={`/dashboard/restaurants/${restaurant.id}`}
+                          >
+                            <button className="text-green-200 hover:bg-green-600 p-2 rounded-full transition-all duration-200 text-2xl cursor-pointer">
                               <FaRegEdit />{" "}
                             </button>
                           </Link>
                         </td>
                         <td className="p-3 text-center">
                           <button
-                            onClick={() => handleDelete(project?.id)}
-                            className="text-red-200 hover:bg-red-600 p-2 rounded-full transition-all duration-200 text-2xl"
+                            onClick={() => handleDelete(restaurant?.id)}
+                            className="text-red-200 hover:bg-red-600 p-2 rounded-full transition-all duration-200 text-2xl cursor-pointer"
                           >
                             <MdDeleteOutline />
                           </button>

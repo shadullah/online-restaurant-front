@@ -12,8 +12,8 @@ const RestaurantDashbaord = () => {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-[30px] font-semibold">Project</h2>
-          <p className="text-sm mb-1">Manage all projects</p>
+          <h2 className="text-[30px] font-semibold">Restaurants</h2>
+          <p className="text-sm mb-1">Manage all Restaurants</p>
         </div>
         <div>
           {userDetail?.user_type === "Owner" ? (
