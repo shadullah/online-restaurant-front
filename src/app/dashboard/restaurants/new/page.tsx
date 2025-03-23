@@ -54,6 +54,7 @@ const AdminRestaurant = () => {
       console.log(error);
     }
   };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">

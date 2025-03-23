@@ -4,11 +4,12 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface Restaurants {
-  id: number;
+  id: string;
   name: string;
   image: string;
   description: string;
@@ -36,6 +37,25 @@ const RestaurantDataTable = () => {
     };
     fetchRestaurants();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete the project??"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      await axios.delete(`/api/restaurants/${id}`);
+      setRestaurants((prev) => prev.filter((project) => project.id !== id));
+      toast.success("deleted success!!", { duration: 3000 });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete project!!!");
+    }
+  };
 
   return (
     <div>
@@ -97,7 +117,7 @@ const RestaurantDataTable = () => {
                         </td>
                         <td className="p-3 text-center">
                           <button
-                            // onClick={() => handleDelete(project._id)}
+                            onClick={() => handleDelete(project?.id)}
                             className="text-red-200 hover:bg-red-600 p-2 rounded-full transition-all duration-200 text-2xl"
                           >
                             <MdDeleteOutline />
