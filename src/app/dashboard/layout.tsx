@@ -6,7 +6,7 @@ export const metadata = {
   description: "Dashboard for handling orders",
 };
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div className="max-w-6xl mx-auto min-h-screen grid grid-cols-6 mt-40">
