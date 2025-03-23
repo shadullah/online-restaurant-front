@@ -1,5 +1,5 @@
 "use client";
-// import { useAuth } from "@/contexts/AuthContext/AuthContext";
+import { useAuth } from "@/contexts/AuthContext/AuthContext";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,12 +13,13 @@ interface Restaurants {
   image: string;
   description: string;
   location: string;
+  owner: string;
 }
 
 const RestaurantDataTable = () => {
   const [restaurants, setRestaurants] = useState<Restaurants[]>([]);
   const [loading, setLoad] = useState(true);
-  // const {user}= useAuth()
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -67,41 +68,43 @@ const RestaurantDataTable = () => {
                     </td>
                   </tr>
                 ) : (
-                  restaurants?.map((project, index) => (
-                    <tr
-                      key={project.id || index}
-                      className="border-b hover:bg-gray-800"
-                    >
-                      <td className="p-3">
-                        <Image
-                          src={project?.image}
-                          alt={project?.name}
-                          width={64}
-                          height={64}
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                      </td>
-                      <td className="p-3 font-medium">{project.name}</td>
-                      <td className="p-3">
-                        <div className="flex gap-2">{project.location}</div>
-                      </td>
-                      <td className="p-3 text-center">
-                        <Link href={`/dashboard/restaurants/${project.id}`}>
-                          <button className="text-green-200 hover:bg-green-600 p-2 rounded-full transition-all duration-200 text-2xl">
-                            <FaRegEdit />{" "}
+                  restaurants
+                    ?.filter((project) => project.owner == user?.id)
+                    .map((project, index) => (
+                      <tr
+                        key={project.id || index}
+                        className="border-b hover:bg-gray-800"
+                      >
+                        <td className="p-3">
+                          <Image
+                            src={project?.image}
+                            alt={project?.name}
+                            width={64}
+                            height={64}
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                        </td>
+                        <td className="p-3 font-medium">{project.name}</td>
+                        <td className="p-3">
+                          <div className="flex gap-2">{project.location}</div>
+                        </td>
+                        <td className="p-3 text-center">
+                          <Link href={`/dashboard/restaurants/${project.id}`}>
+                            <button className="text-green-200 hover:bg-green-600 p-2 rounded-full transition-all duration-200 text-2xl">
+                              <FaRegEdit />{" "}
+                            </button>
+                          </Link>
+                        </td>
+                        <td className="p-3 text-center">
+                          <button
+                            // onClick={() => handleDelete(project._id)}
+                            className="text-red-200 hover:bg-red-600 p-2 rounded-full transition-all duration-200 text-2xl"
+                          >
+                            <MdDeleteOutline />
                           </button>
-                        </Link>
-                      </td>
-                      <td className="p-3 text-center">
-                        <button
-                          // onClick={() => handleDelete(project._id)}
-                          className="text-red-200 hover:bg-red-600 p-2 rounded-full transition-all duration-200 text-2xl"
-                        >
-                          <MdDeleteOutline />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                        </td>
+                      </tr>
+                    ))
                 )}
               </>
             )}

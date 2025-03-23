@@ -26,14 +26,9 @@ const LoginPage = () => {
         password: data.password,
       });
 
-      if (!res.data?.user_id) {
-        throw new Error("Login failed: User ID not found in response");
-      }
-
       const userData = {
-        id: res.data.id,
-        refreshToken: res.data.refreshToken,
-        accessToken: res.data.accessToken,
+        id: res.data.user_id,
+        accessToken: res.data.access,
       };
       login(userData.id, userData.accessToken);
       router.push("/");
