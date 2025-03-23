@@ -21,7 +21,7 @@ const RestaurantDashbaord = () => {
               <Link href={"/dashboard/restaurants/new"}>
                 <button
                   className={
-                    "text-sm border rounded-md px-3 py-2 flex items-center"
+                    "text-sm border rounded-md px-3 py-2 flex items-center cursor-pointer"
                   }
                 >
                   <FaPlus className="h-4 w-4 text-4xl mr-3" />
