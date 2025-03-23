@@ -26,7 +26,7 @@ export const dashboardTabs: DashboardTab[] = [
   },
   {
     id: generateId(),
-    path: "/dashboard/menu",
+    path: "/dashboard/menus",
     icon: <IoDocumentTextOutline className="h-4 w-4" />,
     linkText: "Menus",
   },
