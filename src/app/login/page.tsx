@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import Input from "@/Components/shared/Input/Input";
+import { useAuth } from "@/contexts/AuthContext/AuthContext";
 
 interface LoginForm {
   email: string;
@@ -16,6 +17,7 @@ const LoginPage = () => {
   const { register, handleSubmit } = useForm<LoginForm>();
   const [error] = useState<string | null>("");
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleLogin: SubmitHandler<LoginForm> = async (data) => {
     try {
@@ -23,21 +25,20 @@ const LoginPage = () => {
         email: data.email,
         password: data.password,
       });
-      //   console.log(res.data);
 
       if (!res.data?.user_id) {
         throw new Error("Login failed: User ID not found in response");
       }
 
-      //   const userData = {
-      //     id: res.data.user.id,
-      //     refreshToken: res.data.refreshToken,
-      //     accessToken: res.data.accessToken,
-      //   };
-      //   loginMain(userData);
-      localStorage.setItem("id", res.data.user_id);
+      const userData = {
+        id: res.data.id,
+        refreshToken: res.data.refreshToken,
+        accessToken: res.data.accessToken,
+      };
+      login(userData.id, userData.accessToken);
       router.push("/");
-      console.log("Logged in", res.data);
+      console.log(userData);
+      console.log(res.data);
       toast.success("logged in", { duration: 3000 });
     } catch (error: unknown) {
       const errorMessage =
