@@ -20,13 +20,13 @@ export const dashboardTabs: DashboardTab[] = [
   },
   {
     id: generateId(),
-    path: "/dashbaord/restaurants",
+    path: "/dashboard/restaurants",
     icon: <IoDocumentTextOutline className="h-4 w-4" />,
     linkText: "Restaurants",
   },
   {
     id: generateId(),
-    path: "/dashbaord/menu",
+    path: "/dashboard/menu",
     icon: <IoDocumentTextOutline className="h-4 w-4" />,
     linkText: "Menus",
   },

@@ -8,6 +8,7 @@ interface Restaurants {
   id: number;
   name: string;
   image: string;
+  location: string;
 }
 
 const RestaurantPage = () => {
@@ -38,7 +39,7 @@ const RestaurantPage = () => {
   //   const path = use;
 
   return (
-    <div className="my-36">
+    <div className="my-36 max-w-7xl mx-auto">
       <div className="flex justify-center items-center">
         <div>
           <h1 className="text-5xl font-bold mb-12 border-b-2 border-amber-400">
@@ -50,7 +51,7 @@ const RestaurantPage = () => {
       <div>
         {loading ? (
           <>
-            <p className="my-12 text-center">Loading.....</p>
+            <p className="my-12 text-center text-3xl">Loading.....</p>
           </>
         ) : (
           <>
@@ -79,7 +80,10 @@ const RestaurantPage = () => {
                         className="h-64
                          w-64 rounded-md mb-3"
                       />
-                      <h3>{truncate(prod?.name, 50)}</h3>
+                      <h3 className="font-bold text-2xl">
+                        {truncate(prod?.name, 50)}
+                      </h3>
+                      <p className="text-sm pt-3">{prod.location}</p>
                       <div className="flex justify-center items-center py-6 mx-6">
                         <div>
                           <Link href={`/restaurants/${prod?.id}`}>

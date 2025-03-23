@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { FaLocationDot } from "react-icons/fa6";
 
 interface Restaurants {
   id: number;
   name: string;
   image: string;
   description: string;
+  location: string;
 }
 interface Menus {
   id: number;
@@ -62,34 +64,44 @@ const RestaurantDetailspage = () => {
     <div className="py-36">
       {loading ? (
         <>
-          <div>Loading...</div>
+          <p className="my-12 text-center text-3xl">Loading.....</p>
         </>
       ) : (
         <>
-          <div>
+          <div className="">
             <div>
-              {restaurant?.image && restaurant.image.length > 0 && (
-                <div>
-                  <Image
-                    width={600}
-                    height={600}
-                    src={restaurant?.image}
-                    alt="#"
-                    className="rounded-md mb-3 mx-auto"
-                  />
-                </div>
-              )}
+              <div>
+                {restaurant?.image && restaurant.image.length > 0 && (
+                  <div>
+                    <Image
+                      width={600}
+                      height={600}
+                      src={restaurant?.image}
+                      alt="#"
+                      className="rounded-md mb-3 mx-auto"
+                    />
+                  </div>
+                )}
+              </div>
+
               <h1 className="text-amber-400 text-7xl font-bold text-center">
                 {restaurant?.name}
               </h1>
+              <div className="flex items-center justify-center my-6">
+                <div>
+                  <FaLocationDot className="text-3xl text-amber-400" />
+                </div>
+                <div>{restaurant?.location}</div>
+              </div>
               <p className="text-amber-50 text-md text-center mt-16 mx-24">
                 {restaurant?.description}
               </p>
             </div>
+
             <div>
               {/* starting menu */}
 
-              <div>
+              <div className="my-12">
                 {loading ? (
                   <>
                     <p className="my-12 text-center">Loading.....</p>
@@ -98,7 +110,9 @@ const RestaurantDetailspage = () => {
                   <>
                     {menus?.length === 0 ? (
                       <>
-                        <p>No Menu found</p>
+                        <p className="text-red-600 font-bold text-5xl text-center">
+                          Sorry, No Menu Available
+                        </p>
                       </>
                     ) : (
                       <>
