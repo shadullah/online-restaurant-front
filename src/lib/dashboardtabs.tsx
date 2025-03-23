@@ -10,13 +10,17 @@ type DashboardTab = {
 
 const generateId = () => Math.floor(Math.random() * 10000);
 
+// const generateRestaurantPath = (restaurantId: number | string) => {
+//   return `/dashboard/restaurants/${restaurantId}/menu`;
+// };
+
 // exporting as array
 export const dashboardTabs: DashboardTab[] = [
   {
     id: generateId(),
     path: "/dashboard",
     icon: <IoDocumentTextOutline className="h-4 w-4" />,
-    linkText: "Dashbaord",
+    linkText: "Dashboard",
   },
   {
     id: generateId(),
@@ -30,4 +34,16 @@ export const dashboardTabs: DashboardTab[] = [
     icon: <IoDocumentTextOutline className="h-4 w-4" />,
     linkText: "Menus",
   },
+
+  // for dynamic route
+  // ...(restaurantId
+  //   ? [
+  //       {
+  //         id: generateId(),
+  //         path: generateRestaurantPath(restaurantId),
+  //         icon: <IoDocumentTextOutline className="h-4 w-4" />,
+  //         linkText: "Menus",
+  //       },
+  //     ]
+  //   : []),
 ];

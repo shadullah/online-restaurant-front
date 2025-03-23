@@ -88,7 +88,7 @@ const RestaurantPage = () => {
                         <div>
                           <Link href={`/restaurants/${prod?.id}`}>
                             <button className="px-4 py-3 rounded-lg bg-orange-500 cursor-pointer">
-                              Details
+                              Order Now
                             </button>
                           </Link>
                         </div>

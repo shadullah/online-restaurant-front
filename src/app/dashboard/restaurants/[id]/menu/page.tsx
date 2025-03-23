@@ -1,11 +1,12 @@
+import MenuDashbaord from "@/app/dashboard/(components)/menu/MenuDashboard";
 import React from "react";
 
-const RestaurantMenu = () => {
+const AdminMenu = () => {
   return (
     <div>
-      <p>This is menu</p>
+      <MenuDashbaord />
     </div>
   );
 };
 
-export default RestaurantMenu;
+export default AdminMenu;

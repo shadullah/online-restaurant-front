@@ -1,12 +1,14 @@
 import React from "react";
 import MenuDashbaord from "../(components)/menu/MenuDashboard";
 
-const AdminMenu = () => {
+const AdminRestaurant = () => {
   return (
     <div>
-      <MenuDashbaord />
+      <div>
+        <MenuDashbaord />
+      </div>
     </div>
   );
 };
 
-export default AdminMenu;
+export default AdminRestaurant;
