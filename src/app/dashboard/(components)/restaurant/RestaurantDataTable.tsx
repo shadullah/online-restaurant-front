@@ -1,42 +1,19 @@
 "use client";
 import { useAuth } from "@/contexts/AuthContext/AuthContext";
+import useRestaurants from "@/hooks/useRestaurants";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+// import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
-interface Restaurants {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-  location: string;
-  owner: string;
-}
-
 const RestaurantDataTable = () => {
-  const [restaurants, setRestaurants] = useState<Restaurants[]>([]);
-  const [loading, setLoad] = useState(true);
+  // const [restaurants, setRestaurants] = useState<Restaurants[]>([]);
+  const [restaurants, loading, setRestaurants] = useRestaurants();
+  // const [loading, setLoad] = useState(true);
   const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const url = "/api/restaurants";
-        const res = await axios.get(url);
-        console.log(res?.data);
-        setRestaurants(res?.data || []);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoad(false);
-      }
-    };
-    fetchRestaurants();
-  }, []);
 
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm(
@@ -46,7 +23,6 @@ const RestaurantDataTable = () => {
     if (!confirmDelete) {
       return;
     }
-
     try {
       await axios.delete(`/api/restaurants/${id}`);
       setRestaurants((prev) =>
@@ -99,7 +75,7 @@ const RestaurantDataTable = () => {
                       >
                         <td className="p-3">
                           <Image
-                            src={restaurant?.image}
+                            src={restaurant?.image || "/default.jpg"}
                             alt={restaurant?.name}
                             width={64}
                             height={64}

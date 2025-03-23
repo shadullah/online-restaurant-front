@@ -1,4 +1,5 @@
 "use client";
+import useRestaurants from "@/hooks/useRestaurants";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,12 +7,6 @@ import React, { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
-interface Restaurants {
-  id: string;
-  name: string;
-  image: string;
-  location: string;
-}
 interface Menus {
   id: number;
   price: number;
@@ -23,24 +18,9 @@ interface Menus {
 }
 
 const MenuDataTable = () => {
-  const [restaurants, setRestaurants] = useState<Restaurants[]>([]);
+  const [restaurants] = useRestaurants();
   const [menus, setMenus] = useState<Record<string, Menus[]>>({});
   const [loading, setLoad] = useState(true);
-
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const url = `/api/restaurants`;
-        const res = await axios.get(url);
-        setRestaurants(res?.data || []);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoad(false);
-      }
-    };
-    fetchRestaurants();
-  }, []);
 
   useEffect(() => {
     const fetchMenus = async () => {
@@ -127,7 +107,7 @@ const MenuDataTable = () => {
                         >
                           <td className="p-3">
                             <Image
-                              src={restaurant?.image}
+                              src={restaurant?.image || "/default.jpg"}
                               alt={restaurant?.name}
                               width={64}
                               height={64}
