@@ -19,7 +19,7 @@ interface Restaurant {
 
 const EditRestaurantDetails = () => {
   const { id } = useParams();
-  const [, setRestaurants] = useState<Restaurant | null>(null);
+  const [, setRestaurant] = useState<Restaurant | null>(null);
   const [loading, setLoad] = useState(true);
   const router = useRouter();
   const { user } = useAuth();
@@ -36,7 +36,7 @@ const EditRestaurantDetails = () => {
       try {
         const res = await axios.get(`/api/restaurants/${id}`);
         console.log(res.data);
-        setRestaurants(res.data);
+        setRestaurant(res.data);
 
         setValue("name", res.data.name);
         setValue("description", res.data.description);
@@ -54,6 +54,7 @@ const EditRestaurantDetails = () => {
 
   const handleRestaurantUpdate: SubmitHandler<Restaurant> = async (data) => {
     try {
+      console.log("clicked");
       const res = await axios.put(
         `/api/restaurants/${id}`,
         {

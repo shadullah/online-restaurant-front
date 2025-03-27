@@ -4,11 +4,12 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+// import toast from "react-hot-toast";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface Menus {
-  id: number;
+  id: string;
   price: number;
   name: string;
   image: string;
@@ -58,7 +59,7 @@ const MenuDataTable = () => {
 
   //   try {
   //     await axios.delete(`/api/restaurants/${id}`);
-  //     setRestaurants((prev) =>
+  //     setMenus((prev) =>
   //       prev.filter((restaurant) => restaurant.id !== id)
   //     );
   //     toast.success("deleted success!!", { duration: 3000 });

@@ -81,7 +81,7 @@ const MenuDetails = () => {
                 <div className="p-12 w-1/2">
                   <Image
                     className="h-[500px] w-[500px]"
-                    src={product?.image || ""}
+                    src={product?.image || "/default.jpg"}
                     alt=""
                     height={400}
                     width={400}
@@ -89,7 +89,7 @@ const MenuDetails = () => {
                 </div>
                 <div className="w-1/2 text-start">
                   <h1 className="text-5xl font-bold text-center uppercase">
-                    {product?.name}
+                    koi{product?.name}
                   </h1>
 
                   <div className="flex justify-between items-center">

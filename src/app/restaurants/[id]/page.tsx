@@ -125,7 +125,7 @@ const RestaurantDetailspage = () => {
                               <Image
                                 width={500}
                                 height={500}
-                                src={prod?.image}
+                                src={prod?.image || "/default.jpg"}
                                 // src={
                                 //   prod.image.startsWith("http")
                                 //     ? prod.image

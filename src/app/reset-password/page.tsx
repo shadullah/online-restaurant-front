@@ -4,16 +4,16 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import Input from "@/Components/shared/Input/Input";
 import { useAuth } from "@/contexts/AuthContext/AuthContext";
 
 interface LoginForm {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-const LoginPage = () => {
+const UpdatePage = () => {
   const { register, handleSubmit } = useForm<LoginForm>();
   const [error] = useState<string | null>("");
   const router = useRouter();
@@ -21,9 +21,10 @@ const LoginPage = () => {
 
   const handleLogin: SubmitHandler<LoginForm> = async (data) => {
     try {
-      const res = await axios.post("/api/users/login", {
+      const res = await axios.post("http://localhost:8000/auth/reset-confirm", {
         email: data.email,
         password: data.password,
+        confirmPassword: data.confirmPassword,
       });
 
       const userData = {
@@ -47,32 +48,15 @@ const LoginPage = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-center w-full my-12">
+      <div className="flex items-center justify-center w-full my-24">
         <div
           className={`mx-auto w-full max-w-lg rounded-xl p-10 border border-black/10`}
         >
-          <div className="mb-2 flex justify-center">
-            <span className="inline-block w-full text-xl text-center font-bold">
-              Quick Food
-            </span>
-          </div>
-          <h2 className="text-center text-2xl font-bold leading-tight">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-base text-white/60">
-            Don&apos;t have any account?&nbsp;
-            <Link
-              href="/signup"
-              className="font-medium text-primary transition-all duration-200 underline"
-            >
-              Sign Up
-            </Link>
-          </p>
           {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
           <form onSubmit={handleSubmit(handleLogin)} className="mt-8">
             <div className="space-y-5">
               <Input
-                label="Email "
+                label="Email: "
                 placeholder="Enter your email"
                 type="email"
                 {...register("email", {
@@ -80,10 +64,18 @@ const LoginPage = () => {
                 })}
               />
               <Input
-                label="Password "
+                label="Password: "
                 type="password"
                 placeholder="Enter your password"
                 {...register("password", {
+                  required: true,
+                })}
+              />
+              <Input
+                label="Confirm Password "
+                type="password"
+                placeholder="Enter your password"
+                {...register("confirmPassword", {
                   required: true,
                 })}
               />
@@ -91,7 +83,7 @@ const LoginPage = () => {
                 type="submit"
                 className="w-full bg-orange-500 rounded-md py-2 font-bold text-white cursor-pointer"
               >
-                Sign in
+                Update Password
               </button>
             </div>
           </form>
@@ -101,4 +93,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default UpdatePage;
