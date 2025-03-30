@@ -12,7 +12,7 @@ import { MdDeleteOutline } from "react-icons/md";
 const RestaurantDataTable = () => {
   // const [restaurants, setRestaurants] = useState<Restaurants[]>([]);
   const [restaurants, loading, setRestaurants] = useRestaurants();
-  // const [loading, setLoad] = useState(true);
+  console.log(restaurants);
   const { user } = useAuth();
 
   const handleDelete = async (id: string) => {
@@ -65,6 +65,16 @@ const RestaurantDataTable = () => {
                       No works found
                     </td>
                   </tr>
+                ) : restaurants.filter(
+                    (restaurant) => restaurant.owner != user?.id
+                  ) ? (
+                  <>
+                    <tr>
+                      <td colSpan={4} className="text-center p-4 text-gray-500">
+                        Please add your restaurant first!!
+                      </td>
+                    </tr>
+                  </>
                 ) : (
                   restaurants
                     ?.filter((restaurant) => restaurant.owner == user?.id)

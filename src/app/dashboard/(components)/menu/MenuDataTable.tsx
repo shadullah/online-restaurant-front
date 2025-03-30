@@ -1,9 +1,11 @@
 "use client";
+import { useAuth } from "@/contexts/AuthContext/AuthContext";
 import useRestaurants from "@/hooks/useRestaurants";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 // import toast from "react-hot-toast";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
@@ -22,6 +24,7 @@ const MenuDataTable = () => {
   const [restaurants] = useRestaurants();
   const [menus, setMenus] = useState<Record<string, Menus[]>>({});
   const [loading, setLoad] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchMenus = async () => {
@@ -48,32 +51,40 @@ const MenuDataTable = () => {
     fetchMenus();
   }, [restaurants]);
 
-  // const handleDelete = async (id: string) => {
-  //   const confirmDelete = window.confirm(
-  //     "Are you sure you want to delete the restaurant??"
-  //   );
+  const handleDelete = async (id: string, menuId: string) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete the restaurant??"
+    );
 
-  //   if (!confirmDelete) {
-  //     return;
-  //   }
+    if (!confirmDelete) {
+      return;
+    }
 
-  //   try {
-  //     await axios.delete(`/api/restaurants/${id}`);
-  //     setMenus((prev) =>
-  //       prev.filter((restaurant) => restaurant.id !== id)
-  //     );
-  //     toast.success("deleted success!!", { duration: 3000 });
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Failed to delete restaurant!!!");
-  //   }
-  // };
+    try {
+      await axios.delete(`/api/restaurants/${id}/menu/${menuId}`);
+      setMenus((prev) => {
+        const newMenus = { ...prev };
+        if (newMenus[id]) {
+          newMenus[id] = newMenus[id].filter((menu) => menu.id != menuId);
+        }
+        return newMenus;
+      });
+      toast.success("deleted success!!", { duration: 3000 });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete restaurant!!!");
+    }
+  };
 
   return (
     <div>
       <div className="">
         {loading ? (
           <div className="text-center p-4 text-gray-100">Loading...</div>
+        ) : restaurants.filter((restaurant) => restaurant.id != user?.id) ? (
+          <>
+            <p className="text-xl font-bold text-center">No Restaurant Found</p>
+          </>
         ) : (
           restaurants.map((rest) => (
             <div key={rest.id}>
@@ -101,27 +112,27 @@ const MenuDataTable = () => {
                         </td>
                       </tr>
                     ) : (
-                      menus[rest?.id]?.map((restaurant, index) => (
+                      menus[rest?.id]?.map((menu, index) => (
                         <tr
-                          key={restaurant.id || index}
+                          key={menu.id || index}
                           className="border-b hover:bg-gray-800"
                         >
                           <td className="p-3">
                             <Image
-                              src={restaurant?.image || "/default.jpg"}
-                              alt={restaurant?.name}
+                              src={menu?.image || "/default.jpg"}
+                              alt={menu?.name}
                               width={64}
                               height={64}
                               className="w-16 h-16 object-cover rounded"
                             />
                           </td>
-                          <td className="p-3 font-medium">{restaurant.name}</td>
+                          <td className="p-3 font-medium">{menu.name}</td>
                           <td className="p-3">
-                            <div className="flex gap-2">{restaurant.price}</div>
+                            <div className="flex gap-2">{menu.price}</div>
                           </td>
                           <td className="p-3">
                             <div className="flex gap-2">
-                              {restaurant?.is_available ? (
+                              {menu?.is_available ? (
                                 <>YES</>
                               ) : (
                                 <>
@@ -132,7 +143,7 @@ const MenuDataTable = () => {
                           </td>
                           <td className="p-3 text-center">
                             <Link
-                              href={`/dashboard/restaurants/${restaurant.id}`}
+                              href={`/dashboard/restaurants/${rest.id}/menu/${menu.id}`}
                             >
                               <button className="text-green-200 hover:bg-green-600 p-2 rounded-full transition-all duration-200 text-2xl cursor-pointer">
                                 <FaRegEdit />{" "}
@@ -141,7 +152,7 @@ const MenuDataTable = () => {
                           </td>
                           <td className="p-3 text-center">
                             <button
-                              // onClick={() => handleDelete(restaurant?.id)}
+                              onClick={() => handleDelete(rest.id, menu.id)}
                               className="text-red-200 hover:bg-red-600 p-2 rounded-full transition-all duration-200 text-2xl cursor-pointer"
                             >
                               <MdDeleteOutline />

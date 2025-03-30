@@ -1,8 +1,10 @@
+// "use client";
 import { useAuth } from "@/contexts/AuthContext/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface UserDetail {
+  username: string;
   email: string;
   user_type: string;
 }
