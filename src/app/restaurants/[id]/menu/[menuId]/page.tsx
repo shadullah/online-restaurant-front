@@ -1,5 +1,4 @@
 "use client";
-import { useAuth } from "@/contexts/AuthContext/AuthContext";
 import axios from "axios";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -16,17 +15,15 @@ interface Menus {
 }
 
 const MenuDetails = () => {
-  const { menuId } = useParams();
+  const { id, menuId } = useParams();
   const [product, setProduct] = useState<Menus | null>(null);
   const [loading, setLoad] = useState(true);
-  const { user } = useAuth();
   const navigate = useRouter();
-  // const [exist, setExist] = useState();
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const url = `/api/restaurants/${user?.id}/menu/${menuId}`;
+        const url = `/api/restaurants/${id}/menu/${menuId}`;
         const res = await axios.get(url);
         console.log(res?.data);
         setProduct(res?.data);
@@ -37,12 +34,12 @@ const MenuDetails = () => {
       }
     };
     fetchDetails();
-  }, [menuId, user?.id]);
+  }, [menuId, id]);
 
   const add_to_cart = async () => {
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/carts/user/${menuId}`,
+        `/api/carts/user/${menuId}`,
         {
           customer_id: name,
         },
@@ -72,7 +69,7 @@ const MenuDetails = () => {
       <div>
         {loading ? (
           <>
-            <div className="my-12 text-center">Loading....</div>
+            <div className="my-12 text-3xl text-center">Loading....</div>
           </>
         ) : (
           <>
@@ -89,7 +86,7 @@ const MenuDetails = () => {
                 </div>
                 <div className="w-1/2 text-start">
                   <h1 className="text-5xl font-bold text-center uppercase">
-                    koi{product?.name}
+                    {product?.name}
                   </h1>
 
                   <div className="flex justify-between items-center">
@@ -107,7 +104,7 @@ const MenuDetails = () => {
                       )}
                     </h3>
                   </div>
-                  <p className="text-gray-600  my-6">{product?.description}</p>
+                  <p className="my-6">{product?.description}</p>
                   <div className="text-center">
                     <button
                       onClick={add_to_cart}
